@@ -24,12 +24,16 @@ st.title("🏆 Leaderboard Telemetry")
 
 @st.cache_data
 def load_top_data():
-    db_path = os.path.join(os.getcwd(), 'data', 'phonepe_pulse.db')
+    # FIX: Use correct path relative to pages directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    db_path = os.path.join(parent_dir, 'data', 'phonepe_pulse.db')
+    
     if not os.path.exists(db_path): return pd.DataFrame()
     conn = sqlite3.connect(db_path)
     try:
-        # Assuming aggregated_transaction has state and we mock pincode/district for demo
-        df = pd.read_sql("SELECT * FROM aggregated_transaction", conn)
+        # FIX: Use correct table name
+        df = pd.read_sql("SELECT * FROM pulse_data", conn)
     except:
         df = pd.DataFrame({
             'state': ['Maharashtra', 'Karnataka', 'Tamil Nadu', 'Delhi', 'Gujarat'],
@@ -37,6 +41,8 @@ def load_top_data():
             'pincode': ['400001', '560001', '600001', '110001', '380001'],
             'amount': [5e8, 4e8, 3e8, 2.5e8, 2e8]
         })
+    finally:
+        conn.close()
     return df
 
 df = load_top_data()
