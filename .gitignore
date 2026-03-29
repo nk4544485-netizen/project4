@@ -1,0 +1,9 @@
+pulse_data/
+data/real_phonepe_pulse.db
+phonepe_pulse.db
+*.db-journal
+*.db-shm
+*.db-wal
+__pycache__/
+.streamlit/
+data/phonepe_pulse.db
